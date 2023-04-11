@@ -69,15 +69,15 @@ Try {
     ##* VARIABLE DECLARATION
     ##*===============================================
     ## Variables: Application
-    [string]$appVendor = ''
-    [string]$appName = ''
-    [string]$appVersion = ''
+    [string]$appVendor = 'AE6TY'
+    [string]$appName = 'SimNEC'
+    [string]$appVersion = '1.6'
     [string]$appArch = ''
     [string]$appLang = 'EN'
     [string]$appRevision = '01'
     [string]$appScriptVersion = '1.0.0'
-    [string]$appScriptDate = 'XX/XX/20XX'
-    [string]$appScriptAuthor = '<author name>'
+    [string]$appScriptDate = '04/11/2023'
+    [string]$appScriptAuthor = 'Will Jarvill'
     ##*===============================================
     ## Variables: Install Titles (Only set here to override defaults set by the toolkit)
     [string]$installName = ''
@@ -144,7 +144,7 @@ Try {
         [String]$installPhase = 'Pre-Installation'
 
         ## Show Welcome Message, close Internet Explorer if required, allow up to 3 deferrals, verify there is enough disk space to complete the install, and persist the prompt
-        Show-InstallationWelcome -CloseApps 'processName' -CheckDiskSpace -PersistPrompt
+        Show-InstallationWelcome -CloseApps 'simnec' -CheckDiskSpace -PersistPrompt
 
         ## Show Progress Message (with the default message)
         Show-InstallationProgress
@@ -168,7 +168,7 @@ Try {
         }
 
         ## <Perform Installation tasks here>
-
+        Execute-Process -Path "$dirFiles\windows64-with-JRE.exe" -Parameters '-q' -Passthru
 
         ##*===============================================
         ##* POST-INSTALLATION
@@ -176,7 +176,9 @@ Try {
         [String]$installPhase = 'Post-Installation'
 
         ## <Perform Post-Installation tasks here>
-
+        If (Test-Path "$env:Public\Desktop\SimNEC.lnk") {
+            Remove-Item "$env:Public\Desktop\SimNEC.lnk" -Force
+        }
         ## Display a message at the end of the install
         ## See original PSADT Deploy-Application.ps1 file from GitHub if you want to use this feature
     }
@@ -187,7 +189,7 @@ Try {
         [String]$installPhase = 'Pre-Uninstallation'
 
         ## Show Welcome Message, close Internet Explorer with a 60 second countdown before automatically closing
-        Show-InstallationWelcome -CloseApps 'processName' -CloseAppsCountdown 60
+        Show-InstallationWelcome -CloseApps 'simnec' -CloseAppsCountdown 60
 
         ## Show Progress Message (with the default message)
         Show-InstallationProgress
@@ -209,7 +211,7 @@ Try {
         }
 
         ## <Perform Uninstallation tasks here>
-
+        Execute-Process -Path "$envProgramFiles\SimNEC\uninstall.exe" -Parameters '-q' -Passthru
 
         ##*===============================================
         ##* POST-UNINSTALLATION
@@ -276,8 +278,8 @@ Catch {
 # SIG # Begin signature block
 # MIImVgYJKoZIhvcNAQcCoIImRzCCJkMCAQExDzANBglghkgBZQMEAgEFADB5Bgor
 # BgEEAYI3AgEEoGswaTA0BgorBgEEAYI3AgEeMCYCAwEAAAQQH8w7YFlLCE63JNLG
-# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCDB5bVOvQ4Dzmdk
-# 6vQ9QovPG3aaImGnocZ2/tj4T8IQ76CCH8EwggVvMIIEV6ADAgECAhBI/JO0YFWU
+# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCCQMt2CGIe4/Jcv
+# Pj4J1YwOBja0uUyyNF/uVE7OoGibVKCCH8EwggVvMIIEV6ADAgECAhBI/JO0YFWU
 # jTanyYqJ1pQWMA0GCSqGSIb3DQEBDAUAMHsxCzAJBgNVBAYTAkdCMRswGQYDVQQI
 # DBJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcMB1NhbGZvcmQxGjAYBgNVBAoM
 # EUNvbW9kbyBDQSBMaW1pdGVkMSEwHwYDVQQDDBhBQUEgQ2VydGlmaWNhdGUgU2Vy
@@ -451,32 +453,32 @@ Catch {
 # ZDErMCkGA1UEAxMiU2VjdGlnbyBQdWJsaWMgQ29kZSBTaWduaW5nIENBIFIzNgIR
 # AKVN33D73PFMVIK48rFyyjEwDQYJYIZIAWUDBAIBBQCggYQwGAYKKwYBBAGCNwIB
 # DDEKMAigAoAAoQKAADAZBgkqhkiG9w0BCQMxDAYKKwYBBAGCNwIBBDAcBgorBgEE
-# AYI3AgELMQ4wDAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgCa2HQFWNLLms
-# wN/zb4VOu3Yn59RhVAMeQieQfz7FBEUwDQYJKoZIhvcNAQEBBQAEggGAKffqb2e1
-# CR2o3GmN8lQ51rkHtwHTyWoRoPtJ48dC3WkLKWG7vHX81T7NQ0ol16Y/D9l/ZK0e
-# 2uLGBhhv9vqIQ10OLVUS3wo/6kcyPfmN120T6HzPB/SXy7pkFV0ZCuvuUnBKK5FY
-# qGvBAZ2V5BPWhbK8YTsB0RSmUYDpF89fii8jpSgqn8YXhg8CVgSwqJGtPH98WMK9
-# v3bJWhKuVVkueNB+JfOvsayA6ZAepdT+V1kUS18uRRS5MQz7DEI9798XmYNNbAT9
-# KSd3re1u/ShfriLqyYU5zoix+bUjZC7C/7duPzxOk8m40PfWNlZFNHmXD/feHAZ1
-# R/fZF6D/oqR0No6UX+8Nz37Fw55nwi6pYf6nF0OIAKYnq7NN0hWcP1itHd5LBsy/
-# qij7TfN6olNdVvYyB5WsxLAxl54oNVMuNvXq7crg/frjky4G5usVZhxwL0BPtP7K
-# aQpgJEfuggci3TsyDyRASLN9OGWN0MwuvYuHGQ6gThv+xN9b4MAw1zpeoYIDTDCC
+# AYI3AgELMQ4wDAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgmim+Rta2HmHV
+# HMrizH4S6dZG150pn54BfTDrWvrUdSUwDQYJKoZIhvcNAQEBBQAEggGAGmGRDvDh
+# PS7rpIWvzTRwwGQxhtOtizBEtBgLyIFWlN6CSF4/BVVBjIdawGKQpRxSmvkykspc
+# VLbs41hhFeafULBoaI/iXjqsgeDGnw0YJb8MDteFrq6ngsn6SFIBaloEDhx3RwMf
+# KZub/eVAUkdGq66bkkERagKmkuqhhOMrbL0prRy90dpdQFR6Q9p686322CmtgYll
+# egVkJMq6CH9aXqr9aAZMwDyrCcj9VvM2gn3OFRT0o+ci2qzz7pVT1YzJSIzoo1bW
+# EJHRfUK+umaTUp0E5r0/FVB+US21+q4qxnx5AGGOzqDu46N+dxlauJ3UUQcstE5B
+# 59JNflyoBmu6Q06SFDh8kPg2X/GMhWBNoKEFbcyWHUhivfTvPhYbXIbyfQ9kfllv
+# bBd5z33y6I72n3BkUAIVqSo33G21aco4Gdczgo5c9vTNmMkkSFR2/StxS4+VqAG9
+# RGXlZWQ4JWOaNyer4hIQSBOTGJSSLc9d6E+5SZayrnY8KG2vBl72GrDxoYIDTDCC
 # A0gGCSqGSIb3DQEJBjGCAzkwggM1AgEBMIGSMH0xCzAJBgNVBAYTAkdCMRswGQYD
 # VQQIExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGDAWBgNV
 # BAoTD1NlY3RpZ28gTGltaXRlZDElMCMGA1UEAxMcU2VjdGlnbyBSU0EgVGltZSBT
 # dGFtcGluZyBDQQIRAJA5f5rSSjoT8r2RXwg4qUMwDQYJYIZIAWUDBAICBQCgeTAY
-# BgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJBTEPFw0yMzAzMjQy
-# MDI1NTNaMD8GCSqGSIb3DQEJBDEyBDDGWbI0eBXjLaF85xjgP9PFzCMkuJ0ctGfj
-# tlNAHaKu/8PJs1121T8MPYvxsfx88ecwDQYJKoZIhvcNAQEBBQAEggIAGr9ayfRu
-# vScwWLgcPB6U55J/SQEFHIxIppYAz/9HqCi3Y+PzU5oNYX2OI8WPh0NwYl+xKfIG
-# f2Lhw2LaGIVVPvRWcBmOpWt5k4KFbDX+nhQeDYUUIOwvCZkhUsq+PX0aBzT/CiGD
-# sGvs9S/j/OqSZLCM9563ScE166/KvPLzFpDARTfIHlvP0/pxwbwzD3+7QztbLxGr
-# PVlMLmHiLi++u73JxUrPEmJPV5734GvlkU4hvH8UQdXgyv9pzcnHrXhhfx4RBPe8
-# XbxlrslW2MdjkTKVnZvKF1yCPVOg3so7dvw30eS+wLCABrY136PpXsIx9lvyPcXF
-# m8NgmWWj2+isxx/uzj/BGKZViQuYVEkdzeL+CXF4nIfpr1JjD2EVae39Uyigrthg
-# 59cNYASpwwsEHlQkWsSFbxOBRalCA7V3fYiMiMspaF5wZaFTSCeW7VljUxNavS9u
-# 9RmQKLx4L83TyxeDAkxGp7LZJbzJ669IWBb8ujN0VIIzj5YoaEHQpd71xHVe8UuF
-# X4w0RacQOh7YSjj04n+IfNCZbUFmUXBvm4shuclSDcx9T66kr8vBHPWUXHMLGWnG
-# ymvdUEx8DVG3FsQ8yPEvGwnqwWFtLc6isHNoO8Qp8liZ0M6Ji544Enh6Ci2eBNQr
-# zw5EJQ+iLmVgrLvZH2D5akYkJd7QJDfnLDI=
+# BgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJBTEPFw0yMzA0MTEx
+# NDUzNDlaMD8GCSqGSIb3DQEJBDEyBDAIxNaVtJ0lnglLsVH1q/5aI1nSIlZf0qR0
+# PzioUZqVvMr66nsVuXU6/zVvTUUtvaswDQYJKoZIhvcNAQEBBQAEggIAeFsKvzAX
+# App/2ceLPltfhOnG/EKjD8kijlIHamhB3EwFCkJ808zRs6jwwIGlEWjYu0FsmFA+
+# qp0jDFCz3BkBjm7p2w4vwA7Msug/NELl+lC7e2SJOXBYywyjud7PrdcICI93ZgPm
+# cZXIto3z6clw3Np13vnbv2v6DFWxypj7NP8QVjnE5CQyIJ/whAj+JS/OwyVx454h
+# a6XxwZK6zy4lkAMMa65tfTFU71PHocR3VWeWrC3rTjaaVmyAbSkpvO2fueHqrlUe
+# lavg+lLeiO9SuCgpqMgKzRCnQ22loU7UgkFpfLXizIbSgXAY9y2zHS59G0jpFSEk
+# vFfGmHDtSvWfwUHvLCXQiJEUa2yIMGineM/nELmFGIPTL0sPFBinpN0i9V1Nqalx
+# Hc7plupw0TFU+hOa9hjjSf3Pv4b+pYYdbBmZY1GHHMf1BPnLDLHHEBTgVUUTAlSd
+# Ijm0C8gplDTDgOe41lzI9WKKrF0ECx1Ss8MaZwsAgWBkaYt/cJFqW45iR9ZSAwSW
+# jPoXjMU59vkhofNX3+AThIHFZY/BfvPQkQwXX6JBeQzJKj26m/KSwESxcxC77J8K
+# jhA3AsfLNjMtkyN0Ze4kNoP3fKKBB1Nk2MwyFpr9PnWlo6B5XK6UhldAknt5/45d
+# mvnsBG6tXKzJU2pPYfsF/b5A3BEQLBTTv+U=
 # SIG # End signature block
